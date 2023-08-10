@@ -8,6 +8,7 @@ function Home() {
   const handleClick = () => {
     console.log('Placing your order')
     router.push('/product')
+    // router.replace('/product') //to replace history
   }
 
   return (
