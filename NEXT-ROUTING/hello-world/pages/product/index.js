@@ -31,3 +31,5 @@ function ProductList({ productId = 100 }) {
 }
 
 export default ProductList;
+
+//Dinamic routes

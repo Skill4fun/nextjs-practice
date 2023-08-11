@@ -19,3 +19,5 @@ function Doc() {
 }
 
 export default Doc;
+
+//Catch all routes

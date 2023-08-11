@@ -3,3 +3,5 @@ function Sweater() {
 }
 
 export default Sweater;
+
+//Dinamic routes

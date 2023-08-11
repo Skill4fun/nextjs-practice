@@ -13,3 +13,5 @@ function Review() {
 }
 
 export default Review;
+
+//Dinamic routes

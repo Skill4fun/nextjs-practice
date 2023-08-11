@@ -8,3 +8,5 @@ function ProductDetail() {
 }
 
 export default ProductDetail;
+
+//Dinamic routes
