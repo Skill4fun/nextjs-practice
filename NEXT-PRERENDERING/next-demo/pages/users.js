@@ -24,8 +24,11 @@ const UserList = ({ users }) => {
 
 export default UserList;
 
-//getSaticProps is only allowed in pages, cannot be run from regular components file!
-//used only for pre-rendering and not client side data fetching
+//// getSaticProps is only allowed in pages, cannot be run from regular components file!
+//used ONLY for pre-rendering and NOT client side data fetching
+//you can write server-side code directly in getStaticProps
+//Access to filesystem with 'fs' or querying database can be done inside getStaticProps
+//Don't have to worry about including API-keys in it, as that won't make it to the browser 
 //getSaticProps will run in build time
 //during dev, getSaticProps runs on every request
 export async function getStaticProps() {
