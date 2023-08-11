@@ -5,12 +5,16 @@ function Home() {
 
   const router = useRouter();
 
+
   const handleClick = () => {
     console.log('Placing your order')
+
+    //Programmatic routing
     router.push('/product')
     // router.replace('/product') //to replace history
   }
 
+  //Client-side routing >> LINK
   return (
     <div>
       <h1>Home Page</h1>
