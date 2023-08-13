@@ -11,7 +11,7 @@ const UserList = ({ users }) => {
         </div>
       )}
 
-      // same as above, but using imported custom component
+      {/*// same as above, but using imported custom component*/}
       <h1>List of users</h1>
       {users.map((user) =>
         <div key={user.id}>

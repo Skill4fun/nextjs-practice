@@ -15,7 +15,19 @@ export default Post;
 
 //getStaticPaths to inform nextjs of the possible values that postId.js page should be staticly generated for
 export async function getStaticPaths() {
+  const response = await fetch(`http://jsonplaceholder.typicode.com/posts`)
+  const data = await response.json();
+  const paths = data.map(post => {
+    return {
+      params: {
+        postId: `${post.id}`, //it has to be stringified, so use `${}`
+      }
+    }
+  })
+
   return {
+    //hardcoded paths object:
+    /*
     paths: [
       {
         params: { postId: '1' }
@@ -29,6 +41,14 @@ export async function getStaticPaths() {
     ],
     fallback: false,
   }
+  */
+
+    //dinamically generated paths object:
+    paths: paths,
+    fallback: false,
+
+  }
+
 }
 
 
