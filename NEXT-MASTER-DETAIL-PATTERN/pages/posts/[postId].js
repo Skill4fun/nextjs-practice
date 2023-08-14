@@ -1,4 +1,13 @@
+import { useRouter } from 'next/router';
+
 const Post = ({ post }) => {
+  const router = useRouter();
+
+  //until the props is not available in the component loading appears
+  if (router.isFallback) {
+    return <h1>Loading...</h1>
+  }
+
   return (
     <>
       <div>
@@ -29,27 +38,28 @@ export async function getStaticPaths() {
 
   return {
     //hardcoded paths object:
-    /*
-  
-      paths: [
-        {
-          params: { postId: '1' }
-        },
-        {
-          params: { postId: '2' }
-        },
-        {
-          params: { postId: '3' }
-        },
-      ],
-      fallback: true,
-    }
-  */
 
-    //dinamically generated paths object:
-    paths: paths,
-    fallback: false, //fallback key is mandatory, can be: false/true/'blocking'
+
+    paths: [
+      {
+        params: { postId: '1' }
+      },
+      {
+        params: { postId: '2' }
+      },
+      {
+        params: { postId: '3' }
+      },
+    ],
+    fallback: true,
   }
+  /*
+ 
+  //dinamically generated paths object:
+  paths: paths,
+  fallback: false, //fallback key is mandatory, can be: false/true/'blocking'
+}
+  */
 }
 
 ////fallback key set to...:
