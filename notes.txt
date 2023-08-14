@@ -22,7 +22,7 @@
   - Never run client-side >> Won't be included in the JS bundle sent to the browser
 2. You can write server-side code DIRECTLY in it
   - Access to filesystem with "fs" or querying database can be done inside it
-  - Don't have to worry about incuding API-KEYS in it, as that won't make it to the browser
+  - Don't have to worry about incuding API-KEYS in it, as that won't make it to the browser either
 3. It can ONLY run inside a PAGE component, cannot run in regular components  
   - ONLY used for pre-rendering and NOT for client-side data fetching
 4. Should return an OBJECT which should have a PROPS KEY which is also an OBJECT
@@ -32,7 +32,17 @@
 1. To tell Next.js which pages to pre-render statically
 2. Should return an OBJECT with a /paths key
 
-
+//////- getServerSideProps function -////
+1. It runs ONLY on the server side, 
+  - It will NEVER run clien-side
+  - The code you write inside getServerSideProps won't be included in the JS bundle that is sent to the browser
+2. You can write server-side code directly in getServerSideProps
+ - Access to filesystem with "fs" module or querying a database can be done inside it
+ - Don't have to worry about incuding API-KEYS in it, as that won't make it to the browser either
+3. It can ONLY run inside a PAGE component, cannot run in regular components  
+  - ONLY used for pre-rendering and NOT for client-side data fetching
+4. Should return an OBJECT which should have a PROPS KEY which is also an OBJECT
+5. It will run at REQUEST time
 
 -------------------------------------------------------------------------------------------
 //////- BUILD -////
@@ -118,4 +128,7 @@ Example:
 - So SSR is a form of pre-rendering where the HTML is generated at request time
 - SSR is required when you need to fetch data per request and also when you need to fetch personalized data keeping in mind SEO
 
+This form of rendeing is slower than static generation as the server must compute the result on every request, so USE server-side rendering ONLY if absolutely necessary!
+
 // How?
+//////- getServerSideProps function -////
