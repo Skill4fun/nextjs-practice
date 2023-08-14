@@ -1,12 +1,13 @@
 import { useRouter } from 'next/router';
 
 const Post = ({ post }) => {
+  /*
   const router = useRouter();
-
   //until the props is not available in the component loading fallback page appears, nextjs is generating HTML and Json in the background.. (we cant access to id/title/body yet, because fallback key is set true in getStaticPaths)
-  if (router.isFallback) {
-    return <h1>Loading...</h1>
-  }
+    if (router.isFallback) {
+      return <h1>Loading...</h1>
+    }
+  */
 
   return (
     <>
@@ -51,7 +52,7 @@ export async function getStaticPaths() {
         params: { postId: '3' }
       },
     ],
-    fallback: true,
+    fallback: 'blocking',
   }
   /*
  
@@ -88,7 +89,10 @@ export async function getStaticPaths() {
 // 2. The paths that have not been generated at build time will not result in a 404 page. Instead, on the first request, Next.js will render the page on the server and return the generated HTML.
 // 3. When that's done, the browser receives the HTML for the generated path. From the users perspective, it will transition from "the browser is requesting to page" to "the full page is loaded". There is no flash of loading/fallback state.
 // 4. At the same time, Next.js keeps track of the new list of pre-rendered pages. Subsequent requests to the same path will serve the generated page, just like other pages pre-rendered at build time.
-
+// 5. When to use:
+// On a UX level, sometimes, people prefer the page to be loaded without a loading indicator if the wait time is a few milli seconds. This helps avoid the layout shift.
+// Technical reason: Some crawlers did not support JavaScript. The loading page woud be rendered and then the full page woud be loaded which was causing a problem.
+// (Next.js recommends fallback set to TRUE, unless you see a problem with it, which case you can use fallback set to BLOCKING)
 
 //context paramater is an object which contains a key called params, 
 //in this case it contains the 'postId' route paramater
