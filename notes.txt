@@ -17,6 +17,12 @@
 
 
 -------------------------------------------------------------------------------------------
+//////- How to fetch data -////
+- getStaticProps and getServerSideProps
+
+
+
+-------------------------------------------------------------------------------------------
 //////- getStaticProps function -////
 1. Runs ONLY on the server-side
   - Never run client-side >> Won't be included in the JS bundle sent to the browser
@@ -121,7 +127,7 @@ Example:
     - To fetch tweets specific to the user, we need the userId. And that can be obtained only if we have access to the incoming request 
     - You could do it client side in "useEffect" for example but that means you again miss out on SEO!
 
-  -------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
 //////- 2. SERVER-SIDE RENDERING (SSR) -////
   - Next.js allows you to pre-render a page not at build time but at request time
   - The HTML is generated for every incoming request
@@ -132,3 +138,19 @@ This form of rendeing is slower than static generation as the server must comput
 
 // How?
 //////- getServerSideProps function -////
+
+
+-------------------------------------------------------------------------------------------
+//////- CLIENT-SIDE DATA FETCHING -////
+You might not always need to pre-render the data
+Example:
+  User dashboard page
+    - It is private, that is behind a login screen
+    - Highly user specific, SEO is not relevant
+    - No need to pre-render data
+  So you can rely on client side data fetching!
+
+// SWR - a React Hooks library for Data Fetching  (stale-while-revalidate)
+  - https://swr.vercel.app
+  
+  

@@ -1,9 +1,15 @@
 {
+  "dashboard": {
+    "posts": 5,
+    "likes": 100,
+    "followers": 20,
+    "following": 50
+  },
   "news": [
     {
       "id": 1,
       "title": "New Article 1",
-      "description": "Article description 1",
+      "description": "Blablabla description 1",
       "category": "sports"
     },
     {
