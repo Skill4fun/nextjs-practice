@@ -1,5 +1,58 @@
-Static Generation & Issues
+//////- Routing -////
+1. Simple Route >> index.js
+2. Nested Routes >> blog example
+3. Dinamic Routes >> Product example
+4. Catch all Routes >> docs/[[params]] example
 
+// <LINK>
+- For client-side routing
+- history can be deleted using "replace" >> browser's go back button will birng us to the root page
+
+// Programmatic Navigation
+  <button onClicl={handleClick}/> 
+  - router.push("/product")
+  - router.replace("/product") >> to replace history
+
+// 404.js in pages directory >> handle undefined routes 
+
+
+
+
+
+//////- getStaticProps function -////
+1. Runs ONLY on the server-side
+  - Never run client-side >> Won't be included in the JS bundle sent to the browser
+2. You can write server-side code DIRECTLY in it
+  - Access to filesystem with "fs" or querying database can be done inside it
+  - Don't have to worry about incuding API-KEYS in it, as that won't make it to the browser
+3. It can ONLY run inside a PAGE component, cannot run in regular components  
+  - ONLY used for pre-rendering and NOT for client-side data fetching
+4. Should return an OBJECT which should have a PROPS KEY which is also an OBJECT
+5. It will run in build time, during development it runs on every request 
+
+
+
+
+
+//////- getStaticProps function -////
+1. To tell Next.js which pages to pre-render statically
+2. Should return an OBJECT with a /paths key
+
+
+
+
+
+//////- BUILD -////
+1. Any <LINK/> component in the viewport will be prefetched by default (including the corresponding data) for pages using STATIC GENERATION
+2. When a page with getStaticProps is pre-rendered at build time, in addition to the HTML files, Next.js generates a JSON file holding the result of the running getStaticProps too
+  - The JSON file will be used in CLIENT-SIDE routing through NEXT/LINK, or NEXT/ROUTER
+3. If we navigate directly by writing the link in the browser, the HTML file will be loaded. If we navigate from anouther ROUTE, the page will be generated client-side by pre-fetching Javascript+JSON from the server
+
+
+
+
+
+//////- Static Generation & Issues -////
   - Static generatation is a method of pre-rendering where the HTML pages are generated at build time.
   - The pre-rendered static pages can be pushed to a CDN, cached and served to clients across the globe almost instantly 
   - Static content is fast and better for SEO as they are immediately indexed by search engines
@@ -28,3 +81,17 @@ Pre-render only a few pages at build time and rest of the pages can be pre-rende
   - However an e-commerce site typically will have 90% dynamic pages and 10% static pages. So we can reduce the total build time by using getStaticPaths.
   - But it still does NOT fix the issue of STALE data..
       - If you render 1000 pages at build time, and then the rest are generated based on incoming request, using 'fallback: TRUE' or 'fallback: BLOCKING', changes in data will NOT update the already pre-rendered pages
+
+
+
+
+
+
+//////- Incremental Static Regeneration (ISR) -////
+There was a need to update only those pages which needed a change without having to rebuild the antire app
+  - With ISR, Next.js allows you to update static pages after you've built you app
+  - You can statically generate individual pages without needing to rebuild the entire site, effectively solving the issue of dealing with stale data
+
+//How?
+In the "getStaticProps" function, apart from the props key, we can specify a "REVALIDATE" key 
+  - The value for revalidate is the number of secs after which a page re-generation can ouccur
