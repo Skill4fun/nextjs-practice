@@ -66,7 +66,7 @@ export async function getStaticPaths() {
 //- FALSE:
 // 1. The paths returned from getStaticPaths will be rendered to HTML at build time by getStaticProps.
 // 2. If fallback is set to false, then any paths not returned by getStaticPaths will result in 404 page.
-// 3. When to use: 
+// 3. When to use:
 // The false value is most suitable if you have an appllication with a small number of paths to pre - render.
 // When new pages are not added often.
 // A blog site with a few articles is a good example
@@ -76,7 +76,13 @@ export async function getStaticPaths() {
 // 3. In the background, Next.js will statically generate the requested path HTML and JSON. This includes running getStaticProps.
 // 4. When that's done, the browser receives the JSON for the generated path. This will be used to automatically render the page with the required props. From the user perspective, the page will be swapped from the fallback page to the full page.
 // 5. At the same time, Next.js keeps track of the new list of pre-rendered pages. Subsequent requests to the same path will serve the generated page, just like other pages pre-rendered at build time.
-
+// 6. When to use:
+// The true value is most suitable if your app has a very large number of static pages that depend on data
+// e.g. A large e-commerce site:
+// You want all product pages to be pre-rendered but if you have a few thousand products, builds can take a really long time. So you may statically generate a small subset of products that are popular and use "fallback: TRUE" for the rest.
+// When someone request a page that's not generated yet, the user will see the page with a loading indicator.
+// Shortly after, "getStaticProps" finishes and the page will be rendered with the requested data. From then onwards, everyone who requests the same page will get the statically pre-rendered page
+// This ensures that users always have a fast experience while preserving fast builds and the benefits of "Static Generation"
 
 
 //context paramater is an object which contains a key called params, 

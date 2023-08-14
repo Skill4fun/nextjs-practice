@@ -28,19 +28,20 @@ export async function getStaticProps() {
   const data = await response.json();
 
   //render all posts:
-  /*
   return {
     props: {
       posts: data,
     }
   };
-*/
+
 
 
   //render only 3 posts
+  /*
   return {
     props: {
       posts: data.slice(0, 3),
     }
   };
+  */
 }
