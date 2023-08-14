@@ -1,0 +1,30 @@
+Static Generation & Issues
+
+  - Static generatation is a method of pre-rendering where the HTML pages are generated at build time.
+  - The pre-rendered static pages can be pushed to a CDN, cached and served to clients across the globe almost instantly 
+  - Static content is fast and better for SEO as they are immediately indexed by search engines
+  - Static generation with "getStaticProps" for data fetching and "getStaticPaths" for dynamic pages seems like a really good approach to a wide variety of appllications in production
+
+// Issues:
+1. Issues with build time:
+The build time is proportional to the number of pages in the appllication
+Example:
+  - A page takes 100ms to build.
+  - E-commerce app with 100 products takes 10 seconds to build.
+  - E-commerce app with 100.000 products takes >2.5 hours to build.
+  - It's not just the time, there are cost implications as well.
+The problem gets worse with more products you add to the system as every new page increases the overall build time.
+
+2. Issues wwith stale data:
+A page, once generated, can contain stale data till the time you rebuild the application.
+Depending on the nature of your appllication, you might run into the issue of stale data.
+Example:
+  - E-commerce app is not an application which you can build and deploy once in a while. Product details, especially product prices can vary everyday.
+  - Even if only the price of a product changed, the entire app has to be re-built and the page with updated data will be statically generated  
+
+Can getStaticPaths help?
+Pre-render only a few pages at build time and rest of the pages can be pre-rendered on request?
+  - getStaticPaths only works for dynamic pages, if your app has 90% static pages and 10% dynamic pages, getStaticPaths will not help much.
+  - However an e-commerce site typically will have 90% dynamic pages and 10% static pages. So we can reduce the total build time by using getStaticPaths.
+  - But it still does NOT fix the issue of STALE data..
+      - If you render 1000 pages at build time, and then the rest are generated based on incoming request, using 'fallback: TRUE' or 'fallback: BLOCKING', changes in data will NOT update the already pre-rendered pages
