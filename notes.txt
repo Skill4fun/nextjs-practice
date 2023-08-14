@@ -143,7 +143,7 @@ This form of rendeing is slower than static generation as the server must comput
 -------------------------------------------------------------------------------------------
 //////- CLIENT-SIDE DATA FETCHING -////
 You might not always need to pre-render the data
-Example:
+Example: (dashboard.js + dashboard-swr.js)
   User dashboard page
     - It is private, that is behind a login screen
     - Highly user specific, SEO is not relevant
@@ -156,3 +156,15 @@ Example:
     PLUS:
       - if we use useEffect+State hooks for fetching, if there is a change in the database, the browser has to be refreshed to see the latest data
       - however in case we use SWR, the SWR hook will automatically fetch the latest data and the UI is updated without refreshing the browser !!
+
+
+
+
+-------------------------------------------------------------------------------------------
+//////- CLIENT-SIDE DATA FETCHING + PRE-RENDERING -////    
+Example: (events.js)
+  Event Listing Page  
+    - A page that shows a list of events happening around you
+    - Since We want SEO + Request time data fetching 
+        >> We'll use Server-side rendering with getServerSideProps
+    - Once events have been loaded, we're going to use CLIENT-SIDE DATA FETCHING to filter the events
