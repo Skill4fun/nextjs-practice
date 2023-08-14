@@ -19,6 +19,8 @@ const ProductList = ({ products }) => {
 export default ProductList;
 
 export async function getStaticProps() {
+  console.log("Generating / Regenerating ProductList..")
+
   const response = await fetch(`http://localhost:4000/products`);
   const data = await response.json();
 
@@ -26,5 +28,6 @@ export async function getStaticProps() {
     props: {
       products: data,
     },
+    revalidate: 30, //asking Next.js to revalidate this ProductList page every specified secs, which ensure the updated products data is served almost immediately without having to rebuild the entire app
   }
 }

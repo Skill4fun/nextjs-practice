@@ -16,9 +16,7 @@
 // 404.js in pages directory >> handle undefined routes 
 
 
-
-
-
+-------------------------------------------------------------------------------------------
 //////- getStaticProps function -////
 1. Runs ONLY on the server-side
   - Never run client-side >> Won't be included in the JS bundle sent to the browser
@@ -30,18 +28,13 @@
 4. Should return an OBJECT which should have a PROPS KEY which is also an OBJECT
 5. It will run in build time, during development it runs on every request 
 
-
-
-
-
 //////- getStaticProps function -////
 1. To tell Next.js which pages to pre-render statically
 2. Should return an OBJECT with a /paths key
 
 
 
-
-
+-------------------------------------------------------------------------------------------
 //////- BUILD -////
 1. Any <LINK/> component in the viewport will be prefetched by default (including the corresponding data) for pages using STATIC GENERATION
 2. When a page with getStaticProps is pre-rendered at build time, in addition to the HTML files, Next.js generates a JSON file holding the result of the running getStaticProps too
@@ -49,14 +42,17 @@
 3. If we navigate directly by writing the link in the browser, the HTML file will be loaded. If we navigate from anouther ROUTE, the page will be generated client-side by pre-fetching Javascript+JSON from the server
 
 
+-------------------------------------------------------------------------------------------
+//////- Two forms of PRE-RENDERING -////
+1. Static Generation (recommended most of the times)
+2. Server-side Rendering
 
-
-
-//////- Static Generation & Issues -////
-  - Static generatation is a method of pre-rendering where the HTML pages are generated at build time.
-  - The pre-rendered static pages can be pushed to a CDN, cached and served to clients across the globe almost instantly 
+//////- 1. Static Generation & Issues -////
+  - Static generation is a method of pre-rendering where the HTML pages are generated at build time.
+  - The pre-rendered static pages can be pushed to a CDN, cached, served to clients across the globe almost instantly and reused for each request
   - Static content is fast and better for SEO as they are immediately indexed by search engines
   - Static generation with "getStaticProps" for data fetching and "getStaticPaths" for dynamic pages seems like a really good approach to a wide variety of appllications in production
+  - For dynamic page with "getStaticPaths" and fallback set to TRUE the page is not generated at build time but is generate on the initial request
 
 // Issues:
 1. Issues with build time:
@@ -68,7 +64,7 @@ Example:
   - It's not just the time, there are cost implications as well.
 The problem gets worse with more products you add to the system as every new page increases the overall build time.
 
-2. Issues wwith stale data:
+2. Issues with stale data:
 A page, once generated, can contain stale data till the time you rebuild the application.
 Depending on the nature of your appllication, you might run into the issue of stale data.
 Example:
@@ -81,10 +77,7 @@ Pre-render only a few pages at build time and rest of the pages can be pre-rende
   - However an e-commerce site typically will have 90% dynamic pages and 10% static pages. So we can reduce the total build time by using getStaticPaths.
   - But it still does NOT fix the issue of STALE data..
       - If you render 1000 pages at build time, and then the rest are generated based on incoming request, using 'fallback: TRUE' or 'fallback: BLOCKING', changes in data will NOT update the already pre-rendered pages
-
-
-
-
+      - We cannot fetch data at request time! (E.g in case if a news website, you cannot afford to have stale data..)
 
 
 //////- Incremental Static Regeneration (ISR) -////
@@ -92,6 +85,37 @@ There was a need to update only those pages which needed a change without having
   - With ISR, Next.js allows you to update static pages after you've built you app
   - You can statically generate individual pages without needing to rebuild the entire site, effectively solving the issue of dealing with stale data
 
-//How?
+// How?
 In the "getStaticProps" function, apart from the props key, we can specify a "REVALIDATE" key 
   - The value for revalidate is the number of secs after which a page re-generation can ouccur
+
+// Re-generation
+A re-generation is initiated only if a user makes a request after the revalidate time
+  - If a user visits our product details page but there is no other user hitting that page the entire day, the re-generation does not happen.
+  - Revalidate (10sec) does NOT MEAN the page automatically re-generates every 10 seconds!
+  - It simply denotes the time AFTER which, if a user MAKES a request, a re-generation has to be initiated!
+  - The re-generation can also fail and the previously cached HTML could be served till the subsequent re-generations succeed.
+
+// Issues:
+1. We cannot fetch data at request time:
+Example:
+  In case a news website, you cannot afford to have stale data even for 1 second!
+    - Incremental static generation can help in many cases, but if revalidate is 1 sec, we still might not always see the most up to date news when the regeneration is happening in the background..
+
+2. We don't have access to the incoming request:
+Example:
+  Problem in case the data that needs to be fetched is SPECIFIC to the user..
+  E.g we are building a website similar to twitter
+    - As a user, I should be able to see tweets that are persionalized based on my interests
+    - The tweets that I see also need to be SEO FRIENDLY as it is public content that anyone in the world can see..
+    - To fetch tweets specific to the user, we need the userId. And that can be obtained only if we have access to the incoming request 
+    - You could do it client side in "useEffect" for example but that means you again miss out on SEO!
+
+  -------------------------------------------------------------------------------------------
+//////- 2. SERVER-SIDE RENDERING (SSR) -////
+  - Next.js allows you to pre-render a page not at build time but at request time
+  - The HTML is generated for every incoming request
+- So SSR is a form of pre-rendering where the HTML is generated at request time
+- SSR is required when you need to fetch data per request and also when you need to fetch personalized data keeping in mind SEO
+
+// How?

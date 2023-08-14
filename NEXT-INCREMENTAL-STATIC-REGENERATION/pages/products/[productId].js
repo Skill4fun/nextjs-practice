@@ -25,13 +25,15 @@ export default Product;
 
 export async function getStaticProps(context) {
   const { params } = context;
+  console.log(`Regenerating Product ID: ${params.productId}...`)
   const response = await fetch(`http://localhost:4000/products/${params.productId}`);
   const data = await response.json();
 
   return {
     props: {
       product: data,
-    }
+    },
+    revalidate: 10,
   }
 }
 
