@@ -150,7 +150,9 @@ Example:
     - No need to pre-render data
   So you can rely on client side data fetching!
 
-// SWR - a React Hooks library for Data Fetching  (stale-while-revalidate)
+/// SWR - a React Hooks library for Data Fetching  (stale-while-revalidate)
   - https://swr.vercel.app
-  
-  
+  - it is a much simpler solution for data fetching than using the useEffect+useState hooks
+    PLUS:
+      - if we use useEffect+State hooks for fetching, if there is a change in the database, the browser has to be refreshed to see the latest data
+      - however in case we use SWR, the SWR hook will automatically fetch the latest data and the UI is updated without refreshing the browser !!

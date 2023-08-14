@@ -8,7 +8,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     async function fetchDashboardData() {
-      const response = await fetch(`http://localhost:4000/dashboard`)
+      const response = await fetch(`http://localhost:4000/dashboard`);
       const data = await response.json();
       setDashboardData(data);
       setIsLoading(false);
@@ -19,6 +19,7 @@ const Dashboard = () => {
 
   //Next.js only prerenders the following Loading page, because this is the initial state of the component. Next.js doesnt wait for the API call and update the isLoading state of the component
   //So the page source will always contain the this Loading.. text and the data below (Dashboard) is never pre-rendered!
+  //If you're creating a page that is private thus not need a SEO, and is user specific, CLIENT-SIDE DATA FETCHING is the way to go!
   if (isLoading) {
     return (
       <h2>Loading...</h2>
