@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 const Post = ({ post }) => {
   const router = useRouter();
 
-  //until the props is not available in the component loading appears
+  //until the props is not available in the component loading fallback page appears, nextjs is generating HTML and Json in the background.. (we cant access to id/title/body yet, because fallback key is set true in getStaticPaths)
   if (router.isFallback) {
     return <h1>Loading...</h1>
   }
@@ -87,6 +87,12 @@ export async function getStaticProps(context) {
   const response = await fetch(`http://jsonplaceholder.typicode.com/posts/${params.postId}`);
   const data = await response.json();
 
+  //when we try to fetch the 101. post but we only have 100, 404 page appears using notFound set to TRUE:
+  if (!data.id) {
+    return {
+      notFound: true,
+    }
+  }
 
 
   console.log(`Gererating page for /posts/${params.postId}`);
