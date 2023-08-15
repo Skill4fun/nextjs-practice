@@ -3,9 +3,30 @@ import { comments } from '../../../data/comments';
 
 export default function handler(req, res) {
   const { commentId } = req.query;
-  //find comment based on its ID:
-  const comment = comments.find((comment) => comment.id === parseInt(commentId));
 
-  //send back the specified comment
-  res.status(200).json(comment);
+  if (req.method === 'GET') {
+
+    //find comment based on its ID:
+    const comment = comments.find((comment) => comment.id === parseInt(commentId));
+
+    //send back the specified comment
+    res.status(200).json(comment);
+
+  } else if (req.method === 'DELETE') {
+    //find comment to based on its ID:
+    const deletedComment = comments.find((comment) => comment.id === parseInt(commentId));
+
+    //get the index of the comment based on its ID
+    const index = comments.findIndex(
+      (comment) => comments.id === parseInt(commentId)
+    )
+
+    //delete the specified comment from data
+    comments.splice(index, 1);
+
+    //send back deleted comment
+    res.status(200).json(deletedComment);
+
+  }
 }
+
