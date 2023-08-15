@@ -28,5 +28,18 @@ export default function handler(req, res) {
     res.status(200).json(deletedComment);
 
   }
+
+  if (req.method === 'PATCH') {
+    const { newCommentText } = req.body;
+
+    //find comment based on its ID:
+    const modifiedComment = comments.find((comment) => comment.id === parseInt(commentId));
+
+    modifiedComment.text = newCommentText;
+
+    //send back modified comment
+    res.status(200).json(modifiedComment);
+  }
+
 }
 

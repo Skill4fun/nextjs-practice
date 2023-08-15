@@ -3,6 +3,7 @@ import { useState } from 'react';
 const CommentsPage = () => {
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState('');
+  const [newComment, setNewComment] = useState([{ comment: '' }]);
 
   const fetchComments = async () => {
     const response = await fetch(`/api/comments`)
@@ -32,6 +33,19 @@ const CommentsPage = () => {
     fetchComments();
   }
 
+  const modifyComment = async (commentId, newCommentText) => {
+    const response = await fetch(`api/comments/${commentId}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ newCommentText }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    console.log(data);
+    fetchComments();
+  }
+
 
   return (
     <>
@@ -48,6 +62,11 @@ const CommentsPage = () => {
             <h1 >Comment ID: {comment.id}</h1>
             <p>{comment.text}</p>
             <button onClick={() => deleteComment(comment.id)}>Delete</button>
+            <input type="text"
+              value={newComment.comment}
+              onChange={(e) => setNewComment(comment[comment.id] = e.target.value, console.log(newComment))}
+            />
+            <button onClick={() => modifyComment(comment.id, newComment)}>Modify Comment</button>
           </div>
         )
       })}
