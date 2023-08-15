@@ -168,3 +168,22 @@ Example: (events.js)
     - Since We want SEO + Request time data fetching 
         >> We'll use Server-side rendering with getServerSideProps
     - Once events have been loaded, we're going to use CLIENT-SIDE DATA FETCHING to filter the events
+
+// fetch all events for SEO purposes first, but filter the events client-side with fetchSportEvents for the user, but the URL will still stay the same (user cannot share his filtered results as a link)
+// for that we have to use shallow routing >> with which you can update URL in the browser without running the code inside getServerSideProps
+// >> define the CONTEXT parameter > query > category
+ //add the route to the URL in the browser:
+    router.push('/events?category=sports', undefined, { shallow: true })
+
+
+
+-------------------------------------------------------------------------------------------
+//////- API ROUTES -//// 
+Next.js is a fullstack framework (./NEXT-API-ROUTES)
+  - You can write the frontend code in React and also write APIs that can be called by the front end code
+  - API routes allow you to create RESTful endpoints as part of your Next.j app folder structure
+    - Within the pages folder, you need to create a folder called 'api'
+      - Withing that 'api' folder, you can define all the APIs for you app
+      - You can add business logic without needing to write any additional custom server code and without having to configure any API routes
+      - Next.js gives you everything you need to write a full-stack React+Node app
+
