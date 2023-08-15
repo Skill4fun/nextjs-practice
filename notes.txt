@@ -179,7 +179,7 @@ Example: (events.js)
 
 -------------------------------------------------------------------------------------------
 //////- API ROUTES -//// 
-Next.js is a fullstack framework (./NEXT-API-ROUTES)
+Next.js is a fullstack framework (./NEXT-API-ROUTES/pages/api)
   - You can write the frontend code in React and also write APIs that can be called by the front end code
   - API routes allow you to create RESTful endpoints as part of your Next.j app folder structure
     - Within the pages folder, you need to create a folder called 'api'
